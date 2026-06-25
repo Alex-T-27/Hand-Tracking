@@ -1,13 +1,28 @@
-# HandTracking dependencies
+# HandTracking — pinned, conflict-free dependency set (Python 3.12).
 #
-# IMPORTANT: only ever install opencv-contrib-python (NOT opencv-python).
-# They share the same cv2/ directory; having both installed and then
-# uninstalling one wipes cv2/__init__.py and breaks `import cv2`.
-# opencv-contrib-python is a superset and is what mediapipe depends on.
+# Recreate the environment from scratch with:
+#   python -m venv venv
+#   source venv/bin/activate
+#   pip install -r requirements.txt
 #
-# numpy is pinned <2 because mediapipe 0.10.21 requires numpy<2, while
-# opencv-contrib-python 4.11 requires numpy>=1.26.0. 1.26.4 satisfies both.
+# WHY THESE PINS:
+# - mediapipe 0.10.21 requires numpy<2. If numpy is left unpinned, pip grabs
+#   the latest numpy (2.x) and mediapipe breaks ("module 'mediapipe' has no
+#   attribute 'solutions'"). numpy==1.26.4 is the last 1.x and satisfies
+#   mediapipe (<2) AND opencv-contrib (>=1.26.0) AND jax (>=1.26).
+# - jax/jaxlib/scipy/ml_dtypes are mediapipe's transitive deps that depend on
+#   numpy. They're pinned so a FUTURE release can't raise the numpy floor to
+#   >=2 and silently re-break the build.
+# - opencv-contrib-python ONLY. Never add opencv-python — they share the cv2/
+#   directory and uninstalling one corrupts the other.
 
-numpy==1.26.4
-opencv-contrib-python==4.11.0.86
+# --- direct deps ---
 mediapipe==0.10.21
+opencv-contrib-python==4.11.0.86
+
+# --- numpy-sensitive lock (the chain that caused the conflicts) ---
+numpy==1.26.4
+jax==0.7.1
+jaxlib==0.7.1
+scipy==1.17.1
+ml_dtypes==0.5.4
