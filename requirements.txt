@@ -1,0 +1,13 @@
+# HandTracking dependencies
+#
+# IMPORTANT: only ever install opencv-contrib-python (NOT opencv-python).
+# They share the same cv2/ directory; having both installed and then
+# uninstalling one wipes cv2/__init__.py and breaks `import cv2`.
+# opencv-contrib-python is a superset and is what mediapipe depends on.
+#
+# numpy is pinned <2 because mediapipe 0.10.21 requires numpy<2, while
+# opencv-contrib-python 4.11 requires numpy>=1.26.0. 1.26.4 satisfies both.
+
+numpy==1.26.4
+opencv-contrib-python==4.11.0.86
+mediapipe==0.10.21

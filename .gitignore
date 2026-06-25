@@ -1,0 +1,14 @@
+# Python virtual environment
+venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Claude Code session memory (tooling-specific, not project code)
+.remember/
+
+# OS / editor cruft
+.DS_Store
+.vscode/
